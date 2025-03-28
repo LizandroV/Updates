@@ -29,14 +29,9 @@ if(isset($_POST['enviado']) && (!empty($_SESSION['nro_doc'])) && strlen($_FILES[
     $sql_control="insert into ".$bd.".dbo.control_vigilancia values('$tipodoc', '$nrodoc', '$fechahora', '$nrodoc$docimagen', '$codusu', '$nomusu')";
     db_query($sql_control);
 
-    if ($cod_notificacion > 0) {
-        $sql_delete="delete ".$bd.".dbo.notificacion_vigilancia where cod_notificacion = $cod_notificacion";
-        db_query($sql_delete);
-
-    }else{
-        $sql_delete="delete ".$bd.".dbo.notificacion_vigilancia where tipo_doc = '$tipodoc' and numero_doc = '$nrodoc'";
-        db_query($sql_delete);
-    }
+    //ELIMINAR NOTIFICACIONES RELACIONADAS
+    $sql_delete = "EXEC dbo.sp_EliminarNotificacion_Relacion ?, ?";
+    $result = db_exec_sp($sql_delete, array($tipodoc, $nrodoc));
 
     $_SESSION['validar']='1';
 

@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html class="no-js" lang="es">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">	
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>IDEAS WEB - ERP</title>	
+	<link rel="stylesheet" href="ideasweb.css">
+	<link rel="stylesheet" href="normalize.css">
+	<link rel="stylesheet" href="sweetalert2.css">
+	<link rel="stylesheet" href="material.min.css">
+	<link rel="stylesheet" href="material-design-iconic-font.min.css">
+	<link rel="stylesheet" href="animate.min.css">
+	<link rel="stylesheet" href="jquery.mCustomScrollbar.css">
+	<link rel="stylesheet" href="main.css">
+	<link rel="stylesheet" href="jquery-ui.css">
+	<script src="jquery-1.11.2.min.js"></script>
+	<script src="material.min.js" ></script>
+	<script src="sweetalert2.min.js" ></script>
+	<script src="jquery.mCustomScrollbar.concat.min.js" ></script>
+	<script src="main.js"></script>
+	<script src="jquery.autoheight.js" ></script>
+	<script src="jquery.min.js"></script>
+	<script src="jquery-ui.js"></script>
+</head>
+<body>
+
+<!-- Notifications area -->
+<section class="full-width container-notifications">        
+	<div class="full-width container-notifications-bg btn-Notification"></div>
+	<section class="NotificationArea">
+		<div class="full-width text-center NotificationArea-title tittles">
+			Notificaciones<i class="zmdi zmdi-close btn-Notification"></i>
+		</div>
+
+		<!-- NOTIFICACIONES -->
+		<div id="dv_notifica">
+			<!-- Area de Notificaciones -->
+		</div>
+		<!-- NOTIFICACIONES FIN -->
+	</section>
+</section>
+<!-- Notifications area End -->
+ 
+<!-- navBar -->
+<div class="full-width navBar">
+	<div class="full-width navBar-options">
+		<i class="zmdi zmdi-more-vert btn-menu" id="btn-menu"></i>    
+		<div class="mdl-tooltip" for="btn-menu">Menu</div>
+		<nav class="navBar-options-list">
+			<ul class="list-unstyle">
+				<li class="btn-Notification" id="notifications">
+					<i class="zmdi zmdi-notifications"></i>
+					<span id="contador-notificaciones">0</span> <!-- contador -->
+					<div class="mdl-tooltip" for="notifications">Notificaciones</div>
+				</li>
+
+				<li class="btn-exit" id="btn-exit">
+					<i class="zmdi zmdi-power"></i>
+					<div class="mdl-tooltip" for="btn-exit">Salir</div>
+				</li>
+			</ul>
+		</nav>
+	</div>
+</div>
+<!-- navBar end -->
+
+<!-- navLateral -->
+<section class="full-width navLateral">
+	<div class="full-width navLateral-bg btn-menu"></div>
+	<div class="full-width navLateral-body">
+		<div class="full-width navLateral-body-logo text-center tittles">
+			<i class="zmdi zmdi-close btn-menu"></i> IDEAS WEB
+			<!--<img src="dibujo.png" width="20%" style="position: absolute;left: 70px;top: -10px;z-index: 9999">!-->
+		</div>
+		<figure class="full-width" style="height: 77px;">
+			<figcaption class="navLateral-body-cr hide-on-tablet">
+				<span style="font-size:18px; font-weight:bold; color:#7f7f7f">
+				Acceso autorizado para:
+				</span>
+			</figcaption>
+		</figure>
+		
+		<div class="full-width tittles navLateral-body-tittle-menu">
+						<i class="zmdi zmdi-desktop-mac"></i><span class="hide-on-tablet">&nbsp;<a href="dashboard.php" style="color:#276873;">XOUTDOORX S.A.C.</a></span>
+		</div>
+
+<nav class="full-width">
+<ul class="full-width list-unstyle menu-principal">
+	<li class="full-width divider-menu-h"></li>
+	<li class="full-width">
+	<a href="#!" class="full-width btn-subMenu">
+
+	<div class="navLateral-body-cl">
+	<i class="zmdi zmdi-view-dashboard"></i>
+	</div>
+
+	<div class="navLateral-body-cr hide-on-tablet">
+	Maestros	</div>
+    
+	<span class="zmdi zmdi-chevron-left"></span>
+	</a>
+	<ul class="full-width menu-principal sub-menu-options">
+	<li class="full-width">
+	<a href="usuario.php" class="full-width">
+
+	<div class="navLateral-body-cl">
+	<i class="zmdi zmdi-minus"></i>
+	</div>
+
+	<div class="navLateral-body-cr hide-on-tablet">
+	Usuarios	</div>
+	</a>
+	</li>
+	</ul>
+	<li class="full-width divider-menu-h"></li>
+	<li class="full-width">
+	<a href="#!" class="full-width btn-subMenu">
+
+	<div class="navLateral-body-cl">
+	<i class="zmdi zmdi-view-dashboard"></i>
+	</div>
+
+	<div class="navLateral-body-cr hide-on-tablet">
+	Despacho	</div>
+    
+	<span class="zmdi zmdi-chevron-left"></span>
+	</a>
+	<ul class="full-width menu-principal sub-menu-options">
+	<li class="full-width">
+	<a href="control_vigilancia.php" class="full-width">
+
+	<div class="navLateral-body-cl">
+	<i class="zmdi zmdi-minus"></i>
+	</div>
+
+	<div class="navLateral-body-cr hide-on-tablet">
+	Control Vigilancia	</div>
+	</a>
+	</li>
+	<li class="full-width">
+	<a href="packing.php" class="full-width">
+
+	<div class="navLateral-body-cl">
+	<i class="zmdi zmdi-minus"></i>
+	</div>
+
+	<div class="navLateral-body-cr hide-on-tablet">
+	Packing List	</div>
+	</a>
+	</li>
+	<li class="full-width">
+	<a href="packing_hilos.php" class="full-width">
+
+	<div class="navLateral-body-cl">
+	<i class="zmdi zmdi-minus"></i>
+	</div>
+
+	<div class="navLateral-body-cr hide-on-tablet">
+	Packing Hilos	</div>
+	</a>
+	</li>
+	<li class="full-width">
+	<a href="packing_quimicos.php" class="full-width">
+
+	<div class="navLateral-body-cl">
+	<i class="zmdi zmdi-minus"></i>
+	</div>
+
+	<div class="navLateral-body-cr hide-on-tablet">
+	Packing Quimicos	</div>
+	</a>
+	</li>
+	</ul>
+	<li class="full-width divider-menu-h"></li>
+	<li class="full-width">
+	<a href="#!" class="full-width btn-subMenu">
+
+	<div class="navLateral-body-cl">
+	<i class="zmdi zmdi-view-dashboard"></i>
+	</div>
+
+	<div class="navLateral-body-cr hide-on-tablet">
+	Reportes	</div>
+    
+	<span class="zmdi zmdi-chevron-left"></span>
+	</a>
+	<ul class="full-width menu-principal sub-menu-options">
+	<li class="full-width">
+	<a href="reppacking.php" class="full-width">
+
+	<div class="navLateral-body-cl">
+	<i class="zmdi zmdi-minus"></i>
+	</div>
+
+	<div class="navLateral-body-cr hide-on-tablet">
+	Reporte Packing	</div>
+	</a>
+	</li>
+	<li class="full-width">
+	<a href="rpte_vigilancia.php" class="full-width">
+
+	<div class="navLateral-body-cl">
+	<i class="zmdi zmdi-minus"></i>
+	</div>
+
+	<div class="navLateral-body-cr hide-on-tablet">
+	Reporte Vigilancia	</div>
+	</a>
+	</li>
+	</ul>
+	</li>
+</ul>
+</nav>
+</div>
+</section>
+<section class="full-width pageContent">
+<section class="full-width text-center" style="padding: 40px 0; padding-left: 5px;">
+<script src="../js/notificaciones.js"></script>
+<h3> REPORTE DE VIGILANCIA </h3>
+<form action="rpte_vigilancia.php" method="POST" enctype="multipart/form-data" name="formbuscar" id="formbuscar">
+<ol id="idimput" class="espacio texto">
+    <li class="two"><b>BUSCAR X </b>
+	    <input type="radio" value="1" style="width:15px" name="tipo" checked> Dia<br>	
+        <br><input type="text" name="fei" id="fei" disabled value="2025-03-28" class="dates">
+    </li>
+
+    <li class="two"><br>
+        <center>
+ 		<button type="submit" id="submit" name="submit" class="botonNuevo"><i class="icon-search"></i>Buscar</button>&nbsp;
+        <button type="button" onclick="limpiar_control();" class="botonNuevo"><i class="icon-file4"></i>Limpiar</button>&nbsp;
+        </center>
+    </li>
+
+</ol>
+<div style="clear:both"></div>
+<script type="text/javascript">
+
+    function limpiar_control()
+    {
+        document.getElementById("conte_general").innerHTML="";
+    }
+</script>
+
+<hr>
+<div class="t3">
+</div>
+</font>
+</form>	
+<script>
+$.datepicker.regional['es'] = {
+closeText: 'Cerrar',
+prevText: '<Ant',
+nextText: 'Sig>',
+currentText: 'Hoy',
+monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+monthNamesShort: ['Ene','Feb','Mar','Abr', 'May','Jun','Jul','Ago','Sep', 'Oct','Nov','Dic'],
+dayNames: ['Domingo', 'Lunes', 'Martes', 'Mircoles', 'Jueves', 'Viernes', 'Sbado'],
+dayNamesShort: ['Dom','Lun','Mar','Mi','Juv','Vie','Sb'],
+dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','S'],
+weekHeader: 'Sm',
+dateFormat: 'dd/mm/yy',
+firstDay: 1,
+isRTL: false,
+showMonthAfterYear: false,
+yearSuffix: ''
+};
+$.datepicker.setDefaults($.datepicker.regional['es']);
+</script>	
+<script>$(function() {$( ".dates" ).datepicker({changeMonth: true,changeYear: true,dateFormat: 'yy-mm-dd'});});</script>
+<div class="ocultarMovil"> <br><br> <br></div>
+</main>
+<link rel="stylesheet" href="pie.css">
+<div style="clear:both"></div>
+<div class="pie"><div class="wrapper"><div   class="pie_p cell a-m"><div class="grid_6 des pies" >
+&copy; <a href="https://www.ideasweb.com.pe" target="_blank">Ideas Web</a> 2019 - 2025 . Todos los derechos reservados  			
+</div></div></div>
+</div>
+<div style="clear:both"></div>	
+</center>	
+</body>
+</html>

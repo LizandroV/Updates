@@ -1,4 +1,4 @@
-CREATE TRIGGER [des].[tr_notifica_insert]   
+ALTER TRIGGER [des].[pt_tr_notifica_insert]   
 ON  [des].[PLIST_CAB_TIENDA]       
 FOR INSERT    AS         
 
@@ -11,7 +11,11 @@ BEGIN TRY
 	from inserted          
 	set @codpack=RIGHT('0000000'+CAST(@codpl as nvarchar(7)),7)          
 
-	insert into dbo.notificacion_vigilancia values('Packing List: PL N° '+@codpack,'PT',@codpl,0,@fecha,0)         
+	IF @codpl IS NOT NULL
+	BEGIN
+		insert into dbo.notificacion_vigilancia 
+		values('Packing List: PL N° '+@codpack,'PT',@codpl,0,@fecha,0)         
+	END
 END TRY      
 
 BEGIN CATCH      

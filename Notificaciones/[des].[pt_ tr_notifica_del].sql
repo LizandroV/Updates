@@ -1,4 +1,4 @@
-ALTER TRIGGER [des].[tr_notifica_del] 
+ALTER TRIGGER [des].[pt_tr_notifica_del] 
 ON [des].[PLIST_CAB_TIENDA]      
 FOR UPDATE  
 AS   

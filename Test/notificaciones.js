@@ -34,7 +34,7 @@ function actualizarNotificaciones() {
                 html += `
                     <li class="full-width divider-menu-h"></li>
                     <li class="list-notification">
-                        <div class="vertical">
+                        <div id="vertical">
                             <form action="../sistema/control_vigilancia.php" method="POST">
                                 <input type="hidden" name="tipo_doc" value="${notif.tipo_doc}">
                                 <input type="hidden" name="num_doc" value="${notif.numero_doc}">
@@ -42,10 +42,10 @@ function actualizarNotificaciones() {
                                 <input type="hidden" name="cod_not" value="${notif.cod_notificacion}">
                                 <button type="submit" class="${estado}">
                                     <span class="icon"></span>
-                                    <span class="button-content">
+                                    <div class="text">
                                         <span class="description">${notif.descrip}</span>
                                         <span class="date">Fecha: ${notif.fecha} - Hora: ${notif.hora}</span>
-                                    </span>
+                                    </div>
                                 </button>
                             </form>
                         </div>
