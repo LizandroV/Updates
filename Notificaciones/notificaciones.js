@@ -2,36 +2,44 @@ let notificacionesPrevias = new Set();
 let contadorPrevio = null;
 
 function actualizarNotificaciones() {
-    fetch("obtener_notificaciones.php")
-        .then(response => response.json())
-        .then(data => {
-            let contenedor = document.getElementById("dv_notifica");
-            let notificacionContador = document.getElementById("contador-notificaciones");
+  fetch("obtener_notificaciones.php")
+    .then((response) => response.json())
+    .then((data) => {
+      let contenedor = document.getElementById("dv_notifica");
+      let notificacionContador = document.getElementById(
+        "contador-notificaciones"
+      );
 
-            // Validar si hay cambios en el contador de notificaciones
-            if (contadorPrevio !== data.contador) {
-                contadorPrevio = data.contador; // Actualizar el valor del contador
-                if (notificacionContador) {
-                    notificacionContador.textContent = data.contador;
-                }
-            }
+      // Validar si hay cambios en el contador de notificaciones
+      if (contadorPrevio !== data.contador) {
+        contadorPrevio = data.contador; // Actualizar el valor del contador
+        if (notificacionContador) {
+          notificacionContador.textContent = data.contador;
+        }
+      }
 
-            // Crear un nuevo set
-            let notificacionesActuales = new Set(data.notificaciones.map(n => n.cod_notificacion));
+      // Crear un nuevo set
+      let notificacionesActuales = new Set(
+        data.notificaciones.map((n) => n.cod_notificacion)
+      );
 
-            // Si las notificaciones no han cambiado, no actualizar el DOM
-            if (JSON.stringify([...notificacionesActuales]) === JSON.stringify([...notificacionesPrevias])) {
-                return;
-            }
-            
-            notificacionesPrevias = notificacionesActuales;
+      // Si las notificaciones no han cambiado, no actualizar el DOM
+      if (
+        JSON.stringify([...notificacionesActuales]) ===
+        JSON.stringify([...notificacionesPrevias])
+      ) {
+        return;
+      }
 
-            // Actualizar solo si hay cambios
-            let html = '<nav class="full-width"><ul class="full-width list-unstyle menu-principal">';
+      notificacionesPrevias = notificacionesActuales;
 
-            data.notificaciones.forEach(notif => {
-                let estado = notif.estado == 1 ? "read" : "new";
-                html += `
+      // Actualizar solo si hay cambios
+      let html =
+        '<nav class="full-width"><ul class="full-width list-unstyle menu-principal">';
+
+      data.notificaciones.forEach((notif) => {
+        let estado = notif.estado == 1 ? "read" : "new";
+        html += `
                     <li class="full-width divider-menu-h"></li>
                     <li class="list-notification">
                         <div class="vertical">
@@ -51,17 +59,16 @@ function actualizarNotificaciones() {
                         </div>
                     </li>
                 `;
-            });
+      });
 
-            html += "</ul></nav>";
-            contenedor.innerHTML = html;
-        })
-        .catch(error => console.error("Error al obtener notificaciones:", error));
+      html += "</ul></nav>";
+      contenedor.innerHTML = html;
+    })
+    .catch((error) => console.error("Error al obtener notificaciones:", error));
 }
 
-
 // Ejecutar cada 5 segundos
-setInterval(actualizarNotificaciones, 5000); 
+setInterval(actualizarNotificaciones, 5000);
 
 // Cargar notificaciones
 actualizarNotificaciones();

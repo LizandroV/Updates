@@ -1,51 +1,51 @@
 <?php
-Class KardexTienda
+class KardexTienda
 {
 	var $tipo;
 	var $top;
 
-function listado_kardex_tienda($info_st)
-{  
-		$prod 		=trim($info_st['prod']);//PARTIDA
-		$codalmacen =trim($info_st['codalmacen']);
-		$codempresa =trim($info_st['codempresa']);
-		$codproducto =trim($info_st['codproducto']);
-		$fecinicio 	=trim($info_st['fecinicio']);
-		$fecfin 	=trim($info_st['fecfin']);
+	function listado_kardex_tienda($info_st)
+	{
+		$prod 		= trim($info_st['prod']); //PARTIDA
+		$codalmacen = trim($info_st['codalmacen']);
+		$codempresa = trim($info_st['codempresa']);
+		$codproducto = trim($info_st['codproducto']);
+		$fecinicio 	= trim($info_st['fecinicio']);
+		$fecfin 	= trim($info_st['fecfin']);
 
-	?>
-<table width="100%" border="0" cellpadding="0" cellspacing="0" class="borderTabla"  align="center">
-  <tr>
-	<td valign="top">
-	<table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
-    <tr>
-    <td valign="top">
-    <?php 
-			$i=1;
-		
-	?>    
-		<div id="listOrds" style="width:100%;overflow:auto">
-
-			<table width="100%" border="0" cellpadding="0" cellspacing="0" class="borderTabla" style="align-content: center; ">
+?>
+		<table width="100%" border="0" cellpadding="0" cellspacing="0" class="borderTabla" align="center">
 			<tr>
-				<th width="4%" height="20" align="center" valign="middle" background="images/bg_topbar.gif" class="smalltext"><strong>ITEM</strong></th>
-				<th width="6%" align="center" valign="middle" background="images/bg_topbar.gif" class="smalltext"><strong>FECHA ING</strong></th>
-				<th width="10%" align="center" valign="middle" background="images/bg_topbar.gif" class="smalltext"><strong>PARTIDA</strong></th>
-				<th width="10%" align="center" valign="middle" background="images/bg_topbar.gif" class="smalltext"><strong>PRODUCTO</strong></th>
-				<th width="10%" align="center" valign="middle" background="images/bg_topbar.gif" class="smalltext"><strong>COLOR</strong></th>
-				<th width="10%" align="center" valign="middle" background="images/bg_topbar.gif" class="smalltext"><strong>DOCUMENTO</strong></th>
-				<th width="10%" align="center" valign="middle" background="images/bg_topbar.gif" class="smalltext"><strong>MOTIVO</strong></th>
-				<th width="8%" align="center" valign="middle" background="images/bg_topbar.gif" class="smalltext"><strong>CANT INGRESO</strong></th>
-				<th width="8%" align="center" valign="middle" background="images/bg_topbar.gif" class="smalltext"><strong>CANT SALIDA</strong></th>
-		 </tr>
-			<?php
-			//INGRESO TIENDA
-			$suma_rollos_ing = 0;
-            $suma_kilos_ing = 0;
-			$suma_rollos_sal = 0;
-            $suma_kilos_sal = 0;
+				<td valign="top">
+					<table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+						<tr>
+							<td valign="top">
+								<?php
+								$i = 1;
 
-			$sql_ingresos=" 
+								?>
+								<div id="listOrds" style="width:100%;overflow:auto">
+
+									<table width="100%" border="0" cellpadding="0" cellspacing="0" class="borderTabla" style="align-content: center; ">
+										<tr>
+											<th width="4%" height="20" align="center" valign="middle" background="images/bg_topbar.gif" class="smalltext"><strong>ITEM</strong></th>
+											<th width="6%" align="center" valign="middle" background="images/bg_topbar.gif" class="smalltext"><strong>FECHA ING</strong></th>
+											<th width="10%" align="center" valign="middle" background="images/bg_topbar.gif" class="smalltext"><strong>PARTIDA</strong></th>
+											<th width="10%" align="center" valign="middle" background="images/bg_topbar.gif" class="smalltext"><strong>PRODUCTO</strong></th>
+											<th width="10%" align="center" valign="middle" background="images/bg_topbar.gif" class="smalltext"><strong>COLOR</strong></th>
+											<th width="10%" align="center" valign="middle" background="images/bg_topbar.gif" class="smalltext"><strong>DOCUMENTO</strong></th>
+											<th width="10%" align="center" valign="middle" background="images/bg_topbar.gif" class="smalltext"><strong>MOTIVO</strong></th>
+											<th width="8%" align="center" valign="middle" background="images/bg_topbar.gif" class="smalltext"><strong>CANT INGRESO</strong></th>
+											<th width="8%" align="center" valign="middle" background="images/bg_topbar.gif" class="smalltext"><strong>CANT SALIDA</strong></th>
+										</tr>
+										<?php
+										//INGRESO TIENDA
+										$suma_rollos_ing = 0;
+										$suma_kilos_ing = 0;
+										$suma_rollos_sal = 0;
+										$suma_kilos_sal = 0;
+
+										$sql_ingresos = " 
 			truncate table alm.temp_kardex_tienda; 
 
 			select cab.coding_tda, det.descrip as producto, tm.nom_mov as tipomov, IIF(cab.cod_traslado>0,mot.descrip,tm.nom_mov) 
@@ -56,74 +56,83 @@ function listado_kardex_tienda($info_st)
 			inner join alm.det_ingresos_tienda det on cab.coding_tda=det.coding_tda 
 			left join alm.tipomovimiento tm on cab.codtipomov=tm.codtipo 
 			left join alm.motivo_traslado mot on cab.cod_traslado=mot.codtraslado  
-			where det.estado<>'C' and cab.estado<>'C' and isnull(det.coddevol_tienda,0)=0 "; 	
-			
-			// FILTRO PARTIDA
-			if($prod!=""){$sql_prod =" and det.voucher='".$prod."' ";}else{$sql_prod ="";}
+			where det.estado<>'C' and cab.estado<>'C' and isnull(det.coddevol_tienda,0)=0 ";
 
-			// FILTRO EMPRESA
-			if (!empty($codempresa) || $codempresa != 0){
-				$sql_emp = " and cab.codemp = $codempresa";
-				}else{$sql_emp = "";}
+										// FILTRO PARTIDA
+										if ($prod != "") {
+											$sql_prod = " and det.voucher='" . $prod . "' ";
+										} else {
+											$sql_prod = "";
+										}
 
-			// FILTRO DE FECHAS
-			if(!empty($fecinicio) && !empty($fecfin)){
-				$sql_fec = " and convert(date,det.fechareg) >= '$fecinicio' 
+										// FILTRO EMPRESA
+										if (!empty($codempresa) || $codempresa != 0) {
+											$sql_emp = " and cab.codemp = $codempresa";
+										} else {
+											$sql_emp = "";
+										}
+
+										// FILTRO DE FECHAS
+										if (!empty($fecinicio) && !empty($fecfin)) {
+											$sql_fec = " and convert(date,det.fechareg) >= '$fecinicio' 
 				and convert(date,det.fechareg) <= '$fecfin'";
-				}else{$sql_fec = "";}
+										} else {
+											$sql_fec = "";
+										}
 
-			// FILTRO DE PRODUCTO
-			if (!empty($codproducto)){
-				$sql_producto = " and det.descrip like '%$codproducto%'";
-				}else{$sql_producto = "";}
-				
-			// FILTRO DE ALMACEN - AGREGA TODO
-			if($codalmacen!=0){
-				$sql_ingresos.=" and cab.codalmacen=$codalmacen ".' '.$sql_producto.' '.$sql_prod.' '.$sql_emp.' '.$sql_fec;
-				}
+										// FILTRO DE PRODUCTO
+										if (!empty($codproducto)) {
+											$sql_producto = " and det.descrip like '%$codproducto%'";
+										} else {
+											$sql_producto = "";
+										}
 
-			$sql_ingresos.=" group by cab.coding_tda, det.descrip, 
+										// FILTRO DE ALMACEN - AGREGA TODO
+										if ($codalmacen != 0) {
+											$sql_ingresos .= " and cab.codalmacen=$codalmacen " . ' ' . $sql_producto . ' ' . $sql_prod . ' ' . $sql_emp . ' ' . $sql_fec;
+										}
+
+										$sql_ingresos .= " group by cab.coding_tda, det.descrip, 
 			tm.nom_mov, cab.cod_traslado, mot.descrip, tm.nom_mov, 
 			det.fechareg, det.cdgart, det.voucher, det.cdgcolor, det.descolor, cab.codemp, emp.EmpRaz ";
-			
-			//echo "Ingresos $sql_ingresos";	
 
-			$dsl_ingresos=$_SESSION['dbmssql']->getAll($sql_ingresos);	
-			foreach($dsl_ingresos as $item => $val)
-			{
-				$producto = $val['producto'];
-				$tipomov 	= $val['tipomov'];
-				$traslado = $val['traslado'];
-				$rollos_ingreso = $val['cant_rollos'];
-				$pesokg_ingreso	= $val['peso_kg'];
-				$fechareg = $val['fechareg'];
-				$cdgart 	= $val['cdgart'];
-				$partida 	= $val['voucher'];
-				$cdgcolor = $val['cdgcolor'];
-				$descolor = $val['descolor'];
-				$cod_emp 	= $val['codemp'];
-				$emp_raz 	= $val['EmpRaz'];
+										//echo "Ingresos $sql_ingresos";	
 
-				$sql_insert_ing="insert into alm.temp_kardex_tienda(producto,	tipomov, traslado, 
+										$dsl_ingresos = $_SESSION['dbmssql']->getAll($sql_ingresos);
+										foreach ($dsl_ingresos as $item => $val) {
+											$producto = $val['producto'];
+											$tipomov 	= $val['tipomov'];
+											$traslado = $val['traslado'];
+											$rollos_ingreso = $val['cant_rollos'];
+											$pesokg_ingreso	= $val['peso_kg'];
+											$fechareg = $val['fechareg'];
+											$cdgart 	= $val['cdgart'];
+											$partida 	= $val['voucher'];
+											$cdgcolor = $val['cdgcolor'];
+											$descolor = $val['descolor'];
+											$cod_emp 	= $val['codemp'];
+											$emp_raz 	= $val['EmpRaz'];
+
+											$sql_insert_ing = "insert into alm.temp_kardex_tienda(producto,	tipomov, traslado, 
 					rollo_ingreso, pesokg_ingreso, fechareg, voucher, cdgart, cdgcolor, descolor, cod_emp, emp_razon) 
 					values( 
-					'".$producto."', 
-					'".$tipomov."', 
-					'".$traslado."', 
-					".$rollos_ingreso.", 
-					".$pesokg_ingreso.", 
-					'".$fechareg."', 
-					'".$partida."', 
-					'".$cdgart."', 
-					'".$cdgcolor."', 
-					'".$descolor."',
-					'".$cod_emp."',
-					'".$emp_raz."' )";
-				$_SESSION['dbmssql']->query($sql_insert_ing);	
-			}
+					'" . $producto . "', 
+					'" . $tipomov . "', 
+					'" . $traslado . "', 
+					" . $rollos_ingreso . ", 
+					" . $pesokg_ingreso . ", 
+					'" . $fechareg . "', 
+					'" . $partida . "', 
+					'" . $cdgart . "', 
+					'" . $cdgcolor . "', 
+					'" . $descolor . "',
+					'" . $cod_emp . "',
+					'" . $emp_raz . "' )";
+											$_SESSION['dbmssql']->query($sql_insert_ing);
+										}
 
-			//SALIDA - TRASLADO TIENDA		
-			$sql_salidas="select cab.codsal_tienda, det.descrip as producto, tm.nom_mov as tipomov, IIF(cab.cod_traslado>0,mot.descrip,tm.nom_mov) as traslado, 
+										//SALIDA - TRASLADO TIENDA		
+										$sql_salidas = "select cab.codsal_tienda, det.descrip as producto, tm.nom_mov as tipomov, IIF(cab.cod_traslado>0,mot.descrip,tm.nom_mov) as traslado, 
 			sum(det.cant_rollos_salida) as cant_rollos, sum(det.kneto_salida)as peso_kg, det.fechareg, det.cdgart, det.voucher, det.cdgcolor, det.descolor, 
 			alm.Almacen as almacen_origen, alm2.Almacen as almacen_destino, cab.codemp_origen, emp.EmpRaz
 			from alm.cab_salidas_tienda cab 
@@ -135,79 +144,88 @@ function listado_kardex_tienda($info_st)
 			left join im.ALMACEN alm2 on cab.codalmacen_destino=alm2.CodAlmacen 
 			where det.estado<>'C' and cab.estado<>'C' ";
 
-			// FILTRO PARTIDA
-			if($prod!=""){$sql_prod_sal =" and det.voucher='".$prod."' ";}else{$sql_prod_sal ="";}
+										// FILTRO PARTIDA
+										if ($prod != "") {
+											$sql_prod_sal = " and det.voucher='" . $prod . "' ";
+										} else {
+											$sql_prod_sal = "";
+										}
 
-			// FILTRO EMPRESA
-			if (!empty($codempresa) || $codempresa != 0){
-				$sql_emp_sal = " and cab.codemp_origen = $codempresa";
-				}else{$sql_emp_sal = "";}
+										// FILTRO EMPRESA
+										if (!empty($codempresa) || $codempresa != 0) {
+											$sql_emp_sal = " and cab.codemp_origen = $codempresa";
+										} else {
+											$sql_emp_sal = "";
+										}
 
-			// FILTRO DE FECHAS
-			if(!empty($fecinicio) && !empty($fecfin)){
-				$sql_fec_sal = " and convert(date,det.fechareg) >= '$fecinicio' 
+										// FILTRO DE FECHAS
+										if (!empty($fecinicio) && !empty($fecfin)) {
+											$sql_fec_sal = " and convert(date,det.fechareg) >= '$fecinicio' 
 				and convert(date,det.fechareg) <= '$fecfin'";
-				}else{$sql_fec_sal = "";}
+										} else {
+											$sql_fec_sal = "";
+										}
 
-			// FILTRO DE PRODUCTO
-			if (!empty($codproducto)){
-				$sql_producto_sal = " and det.descrip like '%$codproducto%'";
-				}else{$sql_producto_sal = "";}
-				
-			// FILTRO DE ALMACEN - AGREGA TODO
-			if($codalmacen!=0){
-				$sql_salidas.=" and cab.codalmacen_origen=$codalmacen ".' '.$sql_prod_sal.' '.$sql_producto_sal.' '.$sql_emp_sal.' '.$sql_fec_sal;
-				}
-			
-			$sql_salidas.=" group by cab.codsal_tienda, det.descrip, 
+										// FILTRO DE PRODUCTO
+										if (!empty($codproducto)) {
+											$sql_producto_sal = " and det.descrip like '%$codproducto%'";
+										} else {
+											$sql_producto_sal = "";
+										}
+
+										// FILTRO DE ALMACEN - AGREGA TODO
+										if ($codalmacen != 0) {
+											$sql_salidas .= " and cab.codalmacen_origen=$codalmacen " . ' ' . $sql_prod_sal . ' ' . $sql_producto_sal . ' ' . $sql_emp_sal . ' ' . $sql_fec_sal;
+										}
+
+										$sql_salidas .= " group by cab.codsal_tienda, det.descrip, 
 			tm.nom_mov, cab.cod_traslado, mot.descrip, tm.nom_mov, 
 			det.fechareg, det.cdgart, det.voucher, det.cdgcolor, det.descolor, 
 			alm.Almacen, alm2.Almacen, cab.codemp_origen, emp.EmpRaz ";
 
-			//echo "Salidas $sql_salidas";
+										//echo "Salidas $sql_salidas";
 
-			$dsl_salidas=$_SESSION['dbmssql']->getAll($sql_salidas);
-			foreach ($dsl_salidas as $key => $sal) 
-			{
-						$producto_sal= $sal['producto'];
-						$tipomov_sal = $sal['tipomov'];
-						$traslado_sal= $sal['traslado'];
-						$rollos_sal  = $sal['cant_rollos'];
-						$pesokg_sal	 = $sal['peso_kg'];
-						$fechareg_sal= $sal['fechareg'];
-						$cdgart_sal  = $sal['cdgart'];
-						$partida_sal = $sal['voucher'];
-						$cdgcolor_sal= $sal['cdgcolor'];
-						$descolor_sal= $sal['descolor'];
-						$almacen_origen_sal = $sal['almacen_origen'];
-						$almacen_destino_sal= $sal['almacen_destino'];
-						$cod_emp_sal = $sal['codemp_origen'];
-						$emp_raz_sal = $sal['EmpRaz'];
+										$dsl_salidas = $_SESSION['dbmssql']->getAll($sql_salidas);
+										foreach ($dsl_salidas as $key => $sal) {
+											$producto_sal = $sal['producto'];
+											$tipomov_sal = $sal['tipomov'];
+											$traslado_sal = $sal['traslado'];
+											$rollos_sal  = $sal['cant_rollos'];
+											$pesokg_sal	 = $sal['peso_kg'];
+											$fechareg_sal = $sal['fechareg'];
+											$cdgart_sal  = $sal['cdgart'];
+											$partida_sal = $sal['voucher'];
+											$cdgcolor_sal = $sal['cdgcolor'];
+											$descolor_sal = $sal['descolor'];
+											$almacen_origen_sal = $sal['almacen_origen'];
+											$almacen_destino_sal = $sal['almacen_destino'];
+											$cod_emp_sal = $sal['codemp_origen'];
+											$emp_raz_sal = $sal['EmpRaz'];
 
-						$sql_insert_sal="insert into alm.temp_kardex_tienda(producto, 
+											$sql_insert_sal = "insert into alm.temp_kardex_tienda(producto, 
 						tipomov, traslado, rollo_salida, pesokg_salida, fechareg, voucher, cdgart, 
 						cdgcolor, descolor, almacen_origen, almacen_destino, cod_emp, emp_razon) 
 						values( 
-						'".$producto_sal."', 
-						'".$tipomov_sal."', 
-						'".$traslado_sal."', 
-						".$rollos_sal.", 
-						".$pesokg_sal.", 
-						'".$fechareg_sal."', 
-						'".$partida_sal."', 
-						'".$cdgart_sal."', 
-						'".$cdgcolor_sal."', 
-						'".$descolor_sal."',
-						'".$almacen_origen_sal."',
-						'".$almacen_destino_sal."',
-						'".$cod_emp_sal."',
-						'".$emp_raz_sal."' )";
-				$_SESSION['dbmssql']->query($sql_insert_sal);	
-			}
+						'" . $producto_sal . "', 
+						'" . $tipomov_sal . "', 
+						'" . $traslado_sal . "', 
+						" . $rollos_sal . ", 
+						" . $pesokg_sal . ", 
+						'" . $fechareg_sal . "', 
+						'" . $partida_sal . "', 
+						'" . $cdgart_sal . "', 
+						'" . $cdgcolor_sal . "', 
+						'" . $descolor_sal . "',
+						'" . $almacen_origen_sal . "',
+						'" . $almacen_destino_sal . "',
+						'" . $cod_emp_sal . "',
+						'" . $emp_raz_sal . "' )";
+											$_SESSION['dbmssql']->query($sql_insert_sal);
+										}
 
 
-			// SALIDA - VENTA PACKING LIST
-			$sql_packing=" select cab.CodPL, det.descrip as producto, 
+										// SALIDA - VENTA PACKING LIST
+										$sql_packing = " select cab.CodPL, det.descrip as producto, 
 			'SALIDA DE ALMACEN' as tipomov, 'VENTA' as traslado, 
 			sum(1) as cant_rollos, 
 			sum(det.kneto)as peso_kg, 
@@ -217,79 +235,88 @@ function listado_kardex_tienda($info_st)
 			left join EMPRESA emp on emp.EmpCod = cab.codemp_origen
 			inner join des.PLIST_DET_TIENDA det on cab.CodPL=det.CodPL   
 			left join im.ALMACEN alm on cab.codalmacen_origen=alm.CodAlmacen 
-			where cab.EstadoGeneral<>'1' ";	
+			where cab.EstadoGeneral<>'1' ";
 
-			// FILTRO PARTIDA
-			if($prod!=""){$sql_prod_pl =" and det.voucher='".$prod."' ";}else{$sql_prod_pl ="";}
+										// FILTRO PARTIDA
+										if ($prod != "") {
+											$sql_prod_pl = " and det.voucher='" . $prod . "' ";
+										} else {
+											$sql_prod_pl = "";
+										}
 
-			// FILTRO EMPRESA
-			if (!empty($codempresa) || $codempresa != 0){
-				$sql_emp_pl = " and cab.codemp_origen = $codempresa";
-				}else{$sql_emp_pl = "";}
+										// FILTRO EMPRESA
+										if (!empty($codempresa) || $codempresa != 0) {
+											$sql_emp_pl = " and cab.codemp_origen = $codempresa";
+										} else {
+											$sql_emp_pl = "";
+										}
 
-			// FILTRO DE FECHAS
-			if(!empty($fecinicio) && !empty($fecfin)){
-				$sql_fec_pl = " and convert(date,det.FechaReg) >= '$fecinicio' 
+										// FILTRO DE FECHAS
+										if (!empty($fecinicio) && !empty($fecfin)) {
+											$sql_fec_pl = " and convert(date,det.FechaReg) >= '$fecinicio' 
 				and convert(date,det.FechaReg) <= '$fecfin'";
-				}else{$sql_fec_pl = "";}
+										} else {
+											$sql_fec_pl = "";
+										}
 
-			// FILTRO DE PRODUCTO
-			if (!empty($codproducto)){
-				$sql_producto_pl = " and det.descrip like '%$codproducto%'";
-				}else{$sql_producto_pl = "";}
-				
-			// FILTRO DE ALMACEN - AGREGA TODO
-			if($codalmacen!=0){
-				$sql_packing.=" and cab.codalmacen_origen=$codalmacen ".' '.$sql_prod_pl.' '.$sql_producto_pl.' '.$sql_emp_pl.' '.$sql_fec_pl;
-				}
-			
-			$sql_packing.=" group by cab.CodPL, det.descrip,  
+										// FILTRO DE PRODUCTO
+										if (!empty($codproducto)) {
+											$sql_producto_pl = " and det.descrip like '%$codproducto%'";
+										} else {
+											$sql_producto_pl = "";
+										}
+
+										// FILTRO DE ALMACEN - AGREGA TODO
+										if ($codalmacen != 0) {
+											$sql_packing .= " and cab.codalmacen_origen=$codalmacen " . ' ' . $sql_prod_pl . ' ' . $sql_producto_pl . ' ' . $sql_emp_pl . ' ' . $sql_fec_pl;
+										}
+
+										$sql_packing .= " group by cab.CodPL, det.descrip,  
 			det.fechareg, det.cdgart, det.voucher, 
 			det.cdgcolor, det.descolor, alm.Almacen, cab.codemp_origen, emp.EmpRaz ";
 
-			//echo "Packing $sql_packing";
+										//echo "Packing $sql_packing";
 
-			$dsl_packing=$_SESSION['dbmssql']->getAll($sql_packing);
-			foreach ($dsl_packing as $key => $pac) 
-			{
-				$producto_pac 		= $pac['producto'];
-				$tipomov_pac 		= $pac['tipomov'];
-				$traslado_pac		= $pac['traslado'];
-				$rollos_pac 		= $pac['cant_rollos'];
-				$pesokg_pac	 		= $pac['peso_kg'];
-				$fechareg_pac		= $pac['fechareg'];
-				$cdgart_pac  		= $pac['cdgart'];
-				$partida_pac 		= $pac['voucher'];
-				$cdgcolor_pac		= $pac['cdgcolor'];
-				$descolor_pac		= $pac['descolor'];
-				$almacen_origen_pac = $pac['almacen_origen'];
-				$almacen_destino_pac= "";
-				$cod_emp_pac 		= $pac['codemp_origen'];
-				$emp_raz_pac 		= $pac['EmpRaz'];
+										$dsl_packing = $_SESSION['dbmssql']->getAll($sql_packing);
+										foreach ($dsl_packing as $key => $pac) {
+											$producto_pac 		= $pac['producto'];
+											$tipomov_pac 		= $pac['tipomov'];
+											$traslado_pac		= $pac['traslado'];
+											$rollos_pac 		= $pac['cant_rollos'];
+											$pesokg_pac	 		= $pac['peso_kg'];
+											$fechareg_pac		= $pac['fechareg'];
+											$cdgart_pac  		= $pac['cdgart'];
+											$partida_pac 		= $pac['voucher'];
+											$cdgcolor_pac		= $pac['cdgcolor'];
+											$descolor_pac		= $pac['descolor'];
+											$almacen_origen_pac = $pac['almacen_origen'];
+											$almacen_destino_pac = "";
+											$cod_emp_pac 		= $pac['codemp_origen'];
+											$emp_raz_pac 		= $pac['EmpRaz'];
 
-				$sql_insert_sal2="insert into alm.temp_kardex_tienda(producto, 
+											$sql_insert_sal2 = "insert into alm.temp_kardex_tienda(producto, 
 				tipomov, traslado, rollo_salida, pesokg_salida, fechareg, voucher, cdgart, 
 				cdgcolor, descolor, almacen_origen, almacen_destino, cod_emp, emp_razon) 
 				values( 
-				'".$producto_pac."', 
-				'".$tipomov_pac."', 
-				'".$traslado_pac."', 
-				".$rollos_pac.", 
-				".$pesokg_pac.", 
-				'".$fechareg_pac."', 
-				'".$partida_pac."', 
-				'".$cdgart_pac."', 
-				'".$cdgcolor_pac."', 
-				'".$descolor_pac."',
-				'".$almacen_origen_pac."',
-				'".$almacen_destino_pac."',
-				'".$cod_emp_pac."',
-				'".$emp_raz_pac."' )";
-				$_SESSION['dbmssql']->query($sql_insert_sal2);	
-			}
+				'" . $producto_pac . "', 
+				'" . $tipomov_pac . "', 
+				'" . $traslado_pac . "', 
+				" . $rollos_pac . ", 
+				" . $pesokg_pac . ", 
+				'" . $fechareg_pac . "', 
+				'" . $partida_pac . "', 
+				'" . $cdgart_pac . "', 
+				'" . $cdgcolor_pac . "', 
+				'" . $descolor_pac . "',
+				'" . $almacen_origen_pac . "',
+				'" . $almacen_destino_pac . "',
+				'" . $cod_emp_pac . "',
+				'" . $emp_raz_pac . "' )";
+											$_SESSION['dbmssql']->query($sql_insert_sal2);
+										}
 
-			//INGRESO TIENDA  - DEVOLUCION
-			$sql_devol="  
+										//INGRESO TIENDA  - DEVOLUCION
+										$sql_devol = "  
 			select cab.coddevol_tda, det.descrip as producto, 'INGRESO DE ALMACEN' as tipomov, 
 			mot.descrip as traslado, 
 			sum(det.cant_rollos) as cant_rollos, sum(det.kneto)as peso_kg, 
@@ -298,75 +325,84 @@ function listado_kardex_tienda($info_st)
 			left join EMPRESA emp on emp.EmpCod = cab.codemp_destino 
 			inner join alm.det_devolucion_tienda det on cab.coddevol_tda=det.coddevol_tda  
 			left join alm.motivo_traslado mot on cab.cod_traslado=mot.codtraslado 
-			where det.estado<>'C' and cab.estado<>'C' "; 	
-			
-			// FILTRO PARTIDA
-			if($prod!=""){$sql_prod_d =" and det.voucher='".$prod."' ";}else{$sql_prod_d ="";}
+			where det.estado<>'C' and cab.estado<>'C' ";
 
-			// FILTRO EMPRESA
-			if (!empty($codempresa) || $codempresa != 0){
-				$sql_emp_d = " and cab.codemp_destino = $codempresa";
-				}else{$sql_emp_d = "";}
+										// FILTRO PARTIDA
+										if ($prod != "") {
+											$sql_prod_d = " and det.voucher='" . $prod . "' ";
+										} else {
+											$sql_prod_d = "";
+										}
 
-			// FILTRO DE FECHAS
-			if(!empty($fecinicio) && !empty($fecfin)){
-				$sql_fec_d = " and convert(date,det.fechareg) >= '$fecinicio' 
+										// FILTRO EMPRESA
+										if (!empty($codempresa) || $codempresa != 0) {
+											$sql_emp_d = " and cab.codemp_destino = $codempresa";
+										} else {
+											$sql_emp_d = "";
+										}
+
+										// FILTRO DE FECHAS
+										if (!empty($fecinicio) && !empty($fecfin)) {
+											$sql_fec_d = " and convert(date,det.fechareg) >= '$fecinicio' 
 				and convert(date,det.fechareg) <= '$fecfin'";
-				}else{$sql_fec_d = "";}
+										} else {
+											$sql_fec_d = "";
+										}
 
-			// FILTRO DE PRODUCTO
-			if (!empty($codproducto)){
-				$sql_producto_d = " and det.descrip like '%$codproducto%'";
-				}else{$sql_producto_d = "";}
-				
-			// FILTRO DE ALMACEN - AGREGA TODO
-			if($codalmacen!=0){
-				$sql_devol.=" and cab.codalmacen_destino=$codalmacen ".' '.$sql_prod_d.' '.$sql_producto_d.' '.$sql_emp_d.' '.$sql_fec_d;
-				}
+										// FILTRO DE PRODUCTO
+										if (!empty($codproducto)) {
+											$sql_producto_d = " and det.descrip like '%$codproducto%'";
+										} else {
+											$sql_producto_d = "";
+										}
+
+										// FILTRO DE ALMACEN - AGREGA TODO
+										if ($codalmacen != 0) {
+											$sql_devol .= " and cab.codalmacen_destino=$codalmacen " . ' ' . $sql_prod_d . ' ' . $sql_producto_d . ' ' . $sql_emp_d . ' ' . $sql_fec_d;
+										}
 
 
-			$sql_devol.=" group by cab.coddevol_tda, det.descrip, cab.cod_traslado, 
+										$sql_devol .= " group by cab.coddevol_tda, det.descrip, cab.cod_traslado, 
 			mot.descrip, det.fechareg, det.cdgart, det.voucher, 
 			det.cdgcolor, det.descolor, cab.codemp_destino, emp.EmpRaz ";
-			
-			//echo "Devolucion $sql_devol";	
 
-			$dsl_devol=$_SESSION['dbmssql']->getAll($sql_devol);	
-			foreach($dsl_devol as $item => $dev)
-			{
-				$producto_dev 	= $dev['producto'];
-				$tipomov_dev 	= $dev['tipomov'];
-				$traslado_dev 	= $dev['traslado'];
-				$rollos_ingreso_dev = $dev['cant_rollos'];
-				$pesokg_ingreso_dev	= $dev['peso_kg'];
-				$fechareg_dev 	= $dev['fechareg'];
-				$cdgart_dev 	= $dev['cdgart'];
-				$partida_dev 	= $dev['voucher'];
-				$cdgcolor_dev 	= $dev['cdgcolor'];
-				$descolor_dev 	= $dev['descolor'];
-				$cod_emp_dev 	= $dev['codemp_destino'];
-				$emp_raz_dev 	= $dev['EmpRaz'];
+										//echo "Devolucion $sql_devol";	
 
-				$sql_insert_ing="insert into alm.temp_kardex_tienda(producto,	tipomov, traslado, 
+										$dsl_devol = $_SESSION['dbmssql']->getAll($sql_devol);
+										foreach ($dsl_devol as $item => $dev) {
+											$producto_dev 	= $dev['producto'];
+											$tipomov_dev 	= $dev['tipomov'];
+											$traslado_dev 	= $dev['traslado'];
+											$rollos_ingreso_dev = $dev['cant_rollos'];
+											$pesokg_ingreso_dev	= $dev['peso_kg'];
+											$fechareg_dev 	= $dev['fechareg'];
+											$cdgart_dev 	= $dev['cdgart'];
+											$partida_dev 	= $dev['voucher'];
+											$cdgcolor_dev 	= $dev['cdgcolor'];
+											$descolor_dev 	= $dev['descolor'];
+											$cod_emp_dev 	= $dev['codemp_destino'];
+											$emp_raz_dev 	= $dev['EmpRaz'];
+
+											$sql_insert_ing = "insert into alm.temp_kardex_tienda(producto,	tipomov, traslado, 
 					rollo_ingreso, pesokg_ingreso, fechareg, voucher, cdgart, cdgcolor, descolor, cod_emp, emp_razon) 
 					values( 
-					'".$producto_dev."', 
-					'".$tipomov_dev."', 
-					'".$traslado_dev."', 
-					".$rollos_ingreso_dev.", 
-					".$pesokg_ingreso_dev.", 
-					'".$fechareg_dev."', 
-					'".$partida_dev."', 
-					'".$cdgart_dev."', 
-					'".$cdgcolor_dev."', 
-					'".$descolor_dev."',
-					'".$cod_emp_dev."',
-					'".$emp_raz_dev."' )";
-				$_SESSION['dbmssql']->query($sql_insert_ing);	
-			}
+					'" . $producto_dev . "', 
+					'" . $tipomov_dev . "', 
+					'" . $traslado_dev . "', 
+					" . $rollos_ingreso_dev . ", 
+					" . $pesokg_ingreso_dev . ", 
+					'" . $fechareg_dev . "', 
+					'" . $partida_dev . "', 
+					'" . $cdgart_dev . "', 
+					'" . $cdgcolor_dev . "', 
+					'" . $descolor_dev . "',
+					'" . $cod_emp_dev . "',
+					'" . $emp_raz_dev . "' )";
+											$_SESSION['dbmssql']->query($sql_insert_ing);
+										}
 
-			/// KARDEX - INGRESO Y SALIDA UNIFICADO
-			$sql_kardex=" select producto, tipomov, traslado, 
+										/// KARDEX - INGRESO Y SALIDA UNIFICADO
+										$sql_kardex = " select producto, tipomov, traslado, 
 			sum(rollo_ingreso)as rollo_ingreso, 
 			sum(pesokg_ingreso) as peso_ingreso, 
 			sum(rollo_salida)as rollo_salida, 
@@ -383,96 +419,99 @@ function listado_kardex_tienda($info_st)
 			almacen_origen, almacen_destino 
 			order by fechareg, hora asc ";
 
-			//echo $sql_kardex;
+										//echo $sql_kardex;
 
-			$dsl_kardex=$_SESSION['dbmssql']->getAll($sql_kardex);
-			foreach ($dsl_kardex as $vad => $kar) 
-			{
-				$producto_k 	= $kar['producto'];
-				$tipomov_k 		= $kar['tipomov'];
-				$traslado_k 	= $kar['traslado'];
-				$rollo_ingreso_k= $kar['rollo_ingreso'];
-				$peso_ingreso_k = $kar['peso_ingreso'];
-				$rollo_salida_k	= $kar['rollo_salida'];
-				$peso_salida_k	= $kar['peso_salida'];
-				$fechareg_k 	= $kar['fechareg'];
-				$partida_k 		= $kar['voucher'];
-				$cdgart_k  		= $kar['cdgart'];
-				$cdgcolor_k  	= $kar['cdgcolor'];
-				$descolor_k 	= $kar['descolor'];
-				$alm_origen_k 	= $kar['almacen_origen'];
-				$alm_destino_k	= $kar['almacen_destino'];
+										$dsl_kardex = $_SESSION['dbmssql']->getAll($sql_kardex);
+										foreach ($dsl_kardex as $vad => $kar) {
+											$producto_k 	= $kar['producto'];
+											$tipomov_k 		= $kar['tipomov'];
+											$traslado_k 	= $kar['traslado'];
+											$rollo_ingreso_k = $kar['rollo_ingreso'];
+											$peso_ingreso_k = $kar['peso_ingreso'];
+											$rollo_salida_k	= $kar['rollo_salida'];
+											$peso_salida_k	= $kar['peso_salida'];
+											$fechareg_k 	= $kar['fechareg'];
+											$partida_k 		= $kar['voucher'];
+											$cdgart_k  		= $kar['cdgart'];
+											$cdgcolor_k  	= $kar['cdgcolor'];
+											$descolor_k 	= $kar['descolor'];
+											$alm_origen_k 	= $kar['almacen_origen'];
+											$alm_destino_k	= $kar['almacen_destino'];
 
-				$suma_rollos_ing += (float) $rollo_ingreso_k;
-                $suma_kilos_ing  += (float) $peso_ingreso_k;
-				$suma_rollos_sal += (float) $rollo_salida_k;
-                $suma_kilos_sal  += (float) $peso_salida_k;
+											$suma_rollos_ing += (float) $rollo_ingreso_k;
+											$suma_kilos_ing  += (float) $peso_ingreso_k;
+											$suma_rollos_sal += (float) $rollo_salida_k;
+											$suma_kilos_sal  += (float) $peso_salida_k;
 
-				if(is_null($rollo_ingreso_k) || $rollo_ingreso_k=="" || $rollo_ingreso_k==" " )
-				{
-					$canting = "";
-				}else{
-					$canting = $rollo_ingreso_k.' '."ROLLOS".' | '.number_format((float)$peso_ingreso_k, 2, '.', '').' '."KG";
-				}
+											if (is_null($rollo_ingreso_k) || $rollo_ingreso_k == "" || $rollo_ingreso_k == " ") {
+												$canting = "";
+											} else {
+												$canting = $rollo_ingreso_k . ' ' . "ROLLOS" . ' | ' . number_format((float)$peso_ingreso_k, 2, '.', '') . ' ' . "KG";
+											}
 
-				if(is_null($rollo_salida_k) || $rollo_salida_k=="" || $rollo_salida_k==" " )
-				{
-					$cantsal = "";
-				}else{
-					$cantsal = $rollo_salida_k.' '."ROLLOS".' | '.number_format((float)$peso_salida_k, 2, '.', '').' '."KG";
-				}
+											if (is_null($rollo_salida_k) || $rollo_salida_k == "" || $rollo_salida_k == " ") {
+												$cantsal = "";
+											} else {
+												$cantsal = $rollo_salida_k . ' ' . "ROLLOS" . ' | ' . number_format((float)$peso_salida_k, 2, '.', '') . ' ' . "KG";
+											}
 
-				if(is_null($alm_destino_k)){$aorigen="";}else{$aorigen=$alm_origen_k;}
-				if(is_null($alm_destino_k)){$adestino="";}else{$adestino=$alm_destino_k;}
+											if (is_null($alm_destino_k)) {
+												$aorigen = "";
+											} else {
+												$aorigen = $alm_origen_k;
+											}
+											if (is_null($alm_destino_k)) {
+												$adestino = "";
+											} else {
+												$adestino = $alm_destino_k;
+											}
 
-				if(is_null($alm_destino_k) || $alm_destino_k=="" || $alm_destino_k==" " )
-				{
-					$trasladoCom=$traslado_k;
-				}else{
-					$trasladoCom=$traslado_k.' '.$aorigen.' >> '.$adestino;
-				}
+											if (is_null($alm_destino_k) || $alm_destino_k == "" || $alm_destino_k == " ") {
+												$trasladoCom = $traslado_k;
+											} else {
+												$trasladoCom = $traslado_k . ' ' . $aorigen . ' >> ' . $adestino;
+											}
 
-				$fecreg=date("d-m-Y", strtotime($fechareg_k));
+											$fecreg = date("d-m-Y", strtotime($fechareg_k));
 
-		?>
-			<tr onMouseOver="color1(this,'#dee7ec')" onMouseOut="color2(this,'#ffffff');">		
-				<td height="23" align="center" valign="middle" style="font-size: 9px; color: black;"><?=$i?></td>
-				<td height="23" align="center" valign="middle" style="font-size: 9px; color: black;"><?=$fecreg?></td>
-				<td height="23" align="center" valign="middle" style="font-size: 9px; color: black;"><?=$partida_k?></td>
-				<td height="23" align="center" valign="middle" style="font-size: 9px; color: black;"><?=$producto_k?></td>
-				<td height="23" align="center" valign="middle" style="font-size: 9px; color: black;"><?=$descolor_k?></td>
-				<td height="23" align="center" valign="middle" style="font-size: 9px; color: black;"><?=$tipomov_k?></td>
-				<td height="23" align="center" valign="middle" style="font-size: 9px; color: black;"><?=$trasladoCom?></td>
-				<td height="23" align="center" valign="middle" style="font-size: 9px; color: black;"><?=$canting?></td>
-				<td height="23" align="center" valign="middle" style="font-size: 9px; color: black;"><?=$cantsal?></td>
+										?>
+											<tr onMouseOver="color1(this,'#dee7ec')" onMouseOut="color2(this,'#ffffff');">
+												<td height="23" align="center" valign="middle" style="font-size: 9px; color: black;"><?= $i ?></td>
+												<td height="23" align="center" valign="middle" style="font-size: 9px; color: black;"><?= $fecreg ?></td>
+												<td height="23" align="center" valign="middle" style="font-size: 9px; color: black;"><?= $partida_k ?></td>
+												<td height="23" align="center" valign="middle" style="font-size: 9px; color: black;"><?= $producto_k ?></td>
+												<td height="23" align="center" valign="middle" style="font-size: 9px; color: black;"><?= $descolor_k ?></td>
+												<td height="23" align="center" valign="middle" style="font-size: 9px; color: black;"><?= $tipomov_k ?></td>
+												<td height="23" align="center" valign="middle" style="font-size: 9px; color: black;"><?= $trasladoCom ?></td>
+												<td height="23" align="center" valign="middle" style="font-size: 9px; color: black;"><?= $canting ?></td>
+												<td height="23" align="center" valign="middle" style="font-size: 9px; color: black;"><?= $cantsal ?></td>
+											</tr>
+										<?php
+
+											$i++;
+										} //foreach end
+										$suma_kilos_ing = number_format((float)$suma_kilos_ing, 2, '.', '');
+										$suma_kilos_sal = number_format((float)$suma_kilos_sal, 2, '.', '');
+
+										?>
+										<tr>
+											<td height="20"></td>
+										</tr>
+										<tr>
+											<td colspan="5"></td>
+											<td height="25" colspan="2" align="right" valign="middle" style="font-size: 10px; font-weight: bold;">TOTAL GENERAL:</td>
+											<td width="7%" align="center" valign="middle" style="font-size: 9px; font-weight: bold;"><?= $suma_rollos_ing . ' ROLLOS | ' . $suma_kilos_ing . ' KG' ?></td>
+											<td width="7%" align="center" valign="middle" style="font-size: 9px; font-weight: bold;"><?= $suma_rollos_sal . ' ROLLOS | ' . $suma_kilos_sal . ' KG' ?></td>
+										</tr>
+									</table>
+								</div>
+							</td>
+						</tr>
+					</table>
+				</td>
 			</tr>
-		<?php
-
-			$i++;
-
-		}//foreach end
-		$suma_kilos_ing = number_format((float)$suma_kilos_ing,2, '.', '');
-		$suma_kilos_sal = number_format((float)$suma_kilos_sal,2, '.', '');
-
-		?> 
-			<tr>
-				<td height="20"></td>
-			</tr>
-			<tr>
-				<td colspan="5"></td>
-				<td height="25" colspan="2" align="right" valign="middle" style="font-size: 10px; font-weight: bold;">TOTAL GENERAL:</td>
-				<td width="7%" align="center" valign="middle" style="font-size: 9px; font-weight: bold;"><?=$suma_rollos_ing.' ROLLOS | '.$suma_kilos_ing.' KG'?></td>
-				<td width="7%" align="center" valign="middle" style="font-size: 9px; font-weight: bold;"><?=$suma_rollos_sal.' ROLLOS | '.$suma_kilos_sal.' KG'?></td>
-			</tr>     
 		</table>
-	</div>
-	</td>
-    </tr>
-    </table>
-    </td>
-  </tr>
-</table>
-  <?  }	
-}	 
+<?  }
+}
 
 ?>

@@ -140,6 +140,6 @@ BEGIN
     END
     ELSE
     BEGIN
-        PRINT 'Tipo de documento no válido.';
+        PRINT 'Tipo de documento no vï¿½lido.';
     END
 END;
