@@ -986,7 +986,7 @@ body {
 	letter-spacing: 1px;
 }
 #formbuscar {
-	padding: 10px;
+	padding: 5px;
 	border-radius: 10px;
 	box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 	width: 95%;
@@ -1017,14 +1017,13 @@ body {
 	background-color: #009bdc;
 	color: white;
 	border: none;
-	padding: 10px 15px;
+	padding: 15px;
 	border-radius: 5px;
 	cursor: pointer;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	gap: 5px;
-	width: 80%;
 	max-width: 150px;
 }
 
@@ -1033,7 +1032,7 @@ body {
 }
 
 #conte_general {
-	width: 98%;
+	width: 95%;
 	max-width: 1000px;
 	margin: 10px auto;
 	padding: 10px;
@@ -1084,17 +1083,15 @@ body {
 	cursor: pointer;
 }
 
-/* Aplica el borde rojo a los campos vacíos */
 .form-recibo input:required,
 .form-recibo select:required {
-	border-left: 5px solid red; /* Barra roja en el lado izquierdo */
+	border-left: 5px solid red;
 	transition: border-left 0.3s ease-in-out;
 }
 
-/* Quita la barra roja cuando el campo tiene contenido */
-.form-recibo input:valid,
-.form-recibo select:valid,
-.form-recibo textarea:valid {
+.form-recibo input:not([required]),
+.form-recibo select:not([required]),
+.form-recibo textarea:not([required]) {
 	border-left: 5px solid green;
 	transition: border-left 0.3s ease-in-out;
 }
@@ -1178,6 +1175,208 @@ body {
 	display: block;
 }
 
+/* 📌 NOTA: SALIDA TIENDA  */
+.stForm-group {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	gap: 22px;
+	margin: 0 auto;
+	padding: 20px;
+	border-radius: 10px;
+	box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+	flex-wrap: wrap;
+}
+
+.stForm label {
+	font-weight: bold;
+	display: block;
+	margin-bottom: 1px;
+}
+
+.stForm input[type="text"],
+.stForm input[type="date"],
+.form-group input[type="date"] {
+	text-align: center;
+	height: 30px;
+	display: block;
+	padding: 10px;
+	border: 1px solid #ccc;
+	border-radius: 8px;
+	font-size: 14px;
+	pointer-events: auto;
+	position: relative;
+	z-index: 2;
+}
+.stForm input[type="text"] {
+	width: 250px;
+}
+.stForm input[type="date"] {
+	width: 90%;
+}
+
+.buttons {
+	display: flex;
+	gap: 10px;
+	margin-top: 20px;
+}
+.stTitle {
+	margin-top: 20px;
+}
+.fila-click {
+	cursor: pointer;
+}
+
+/* 📌 NOTA: DETALLE SALIDA TIENDA */
+.stForm-det {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 20px;
+	border-radius: 10px;
+	box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+	margin: auto;
+	margin-bottom: 20px;
+}
+
+.stHead {
+	display: flex;
+	gap: 30px;
+}
+
+.stTransfer {
+	display: flex;
+	justify-content: center;
+	gap: 80px;
+	flex-wrap: wrap;
+	width: 100%;
+	padding-bottom: 15px;
+}
+.stFila {
+	display: flex;
+	flex-direction: row;
+	gap: 10px;
+}
+.stSection h5 {
+	margin-bottom: 5px;
+}
+
+.stSection input[type="text"] {
+	margin-top: 5px;
+	padding: 8px 12px;
+	border: 1px solid #ccc;
+	border-radius: 8px;
+	font-size: 14px;
+	background-color: #f9f9f9;
+	text-align: center;
+	width: 80%;
+}
+
+.stAlmacen {
+	display: flex;
+	flex-direction: column;
+	margin-top: 10px;
+}
+.stAlmacen label {
+	font-weight: bolder;
+}
+.stDestino {
+	font-size: 32px;
+	align-self: center;
+}
+
+.stHead input[type="date"],
+.stHead select,
+.stAlmacen select {
+	text-align: center;
+	height: 40px;
+	margin-top: 5px;
+	padding: 8px 12px;
+	border: 1px solid #ccc;
+	border-radius: 8px;
+	font-size: 14px;
+	background-color: #f9f9f9;
+}
+
+.stHead select,
+.stAlmacen select {
+	width: 100%;
+}
+
+.stHead input[type="date"] {
+	height: 20px;
+}
+.stRollos {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.stRollos label {
+	font-weight: bolder;
+}
+
+.stRollos input[type="text"] {
+	margin-top: 5px;
+	padding: 8px 12px;
+	border: 1px solid #ccc;
+	border-radius: 8px;
+	font-size: 14px;
+	background-color: #f9f9f9;
+	width: 100%;
+}
+
+#codbarra {
+	height: 25px;
+	min-width: 230px;
+	text-align: center;
+}
+
+#btnEliminar {
+	display: flex;
+	justify-content: center;
+}
+
+.buttons-row {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	gap: 10px;
+}
+
+/* 📌 NOTA: Reporte Vigilancia  */
+.plSection {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	margin: 15px 0 10px 0;
+	gap: 10px;
+}
+
+.plSection input[type="text"] {
+	margin-top: 5px;
+	padding: 10px;
+	border: 1px solid #ccc;
+	border-radius: 8px;
+	font-size: 14px;
+	background-color: #f9f9f9;
+	text-align: center;
+	width: 80%;
+}
+
+.cliente-box {
+	min-width: 300px;
+}
+
+#totales-contenedor {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	font-weight: bold;
+	font-size: 16px;
+	gap: 25px;
+}
 /*=====================================================
 
 					Media  Queries
@@ -1267,7 +1466,7 @@ body {
 	}
 
 	.form-group {
-		flex-direction: column;
+		flex-direction: row;
 		align-items: center;
 		text-align: center;
 	}
@@ -1291,6 +1490,70 @@ body {
 	.form-recibo select,
 	.form-recibo input {
 		width: 80%;
+	}
+	.stTransfer {
+		flex-direction: column;
+		align-items: center;
+		gap: 5px;
+	}
+
+	.stDestino {
+		display: none;
+	}
+
+	.stForm-det {
+		padding: 0 0 20px 0;
+	}
+
+	/* TABLA */
+	.table-responsive {
+		display: block;
+		width: 100%;
+		overflow-x: auto;
+	}
+
+	/* Oculta los encabezados en móvil */
+	#detalle-rollos thead {
+		display: none;
+	}
+
+	/* Estilo para las filas en móvil */
+	.data-row tr {
+		display: block;
+		margin-bottom: 1rem;
+		border: 1px solid #ddd;
+	}
+
+	/* Estilo para las celdas en móvil */
+	.mobile-view {
+		display: block;
+		text-align: right;
+		padding: 8px;
+		position: relative;
+	}
+
+	/* Data-labels en móvil */
+	.mobile-view:before {
+		content: attr(data-label);
+		position: absolute;
+		left: 8px;
+		top: 8px;
+		font-weight: bold;
+		text-align: left;
+	}
+
+	/* Ajustes para inputs en móvil */
+	.mobile-view input {
+		width: 60% !important;
+		float: right;
+	}
+
+	#totalTbl {
+		display: none;
+	}
+
+	.plSection input[type="text"] {
+		min-width: 300px;
 	}
 }
 
@@ -1333,6 +1596,15 @@ body {
 	.form-recibo label {
 		min-width: 150px;
 		max-width: 150px;
+	}
+	.stForm-det {
+		padding: 0;
+	}
+	.stDestino {
+		display: none;
+	}
+	.stTransfer {
+		gap: 5px;
 	}
 }
 

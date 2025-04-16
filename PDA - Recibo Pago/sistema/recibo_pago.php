@@ -1,8 +1,7 @@
 <?php
-error_reporting(E_ALL);
+// error_reporting(E_ALL);
 include "head.php";
 unset($_SESSION['carroV']);
-$bd = "DESARROLLO";
 $_SESSION['igvnum1_'] = $igvnum1;
 
 if (!isset($_SESSION['logged'])) {
@@ -10,6 +9,7 @@ if (!isset($_SESSION['logged'])) {
     echo '<script>document.location.href="../index.php?e=24";</script>';
     exit;
 }
+
 ?>
 <h3 class="controlTitle"> RECIBO DE PAGO </h3>
 <p id="respuesta"></p>
@@ -19,7 +19,7 @@ if (!isset($_SESSION['logged'])) {
         <input type="hidden" name="usuario" id="usuario" value="<?= $_SESSION['micodigo'] ?>" />
         <label for="cbempresa"><b>Empresa:</b></label>
         <select name="cbempresa" id="cbempresa" required>
-            <option value="">Elegir</option>
+            <option value="0">Elegir</option>
             <?php
             $sql_emp = "SELECT EmpCod, EmpRaz FROM $bd.dbo.EMPRESA WHERE EmpEst='A' ORDER BY EmpRaz ASC";
             $empresas = db_fetch_all($sql_emp);
@@ -35,7 +35,7 @@ if (!isset($_SESSION['logged'])) {
     <div class="form-recibo">
         <label for="cbnegocio"><b>Negocio:</b></label>
         <select name="cbnegocio" id="cbnegocio">
-            <option value="">Elegir</option>
+            <option value="0">Elegir</option>
             <?php
             $sql_neg = "SELECT NegCod, NegDes FROM $bd.dbo.NEGOCIO WHERE NegCod!=1 and NegEst='A' ORDER BY NegCod ASC";
             $negocios = db_fetch_all($sql_neg);
@@ -56,7 +56,7 @@ if (!isset($_SESSION['logged'])) {
     <div class="form-recibo">
         <label for="cbcliente"><b>Cliente:</b></label>
         <select name="cbcliente" id="cbcliente" required>
-            <option value="">Elegir</option>
+            <option value="0">Elegir</option>
             <?php
             $sql_cli = "SELECT CliCod, CONVERT(NVARCHAR(MAX), CliRaz) AS CliRaz FROM $bd.dbo.CLIENTE WHERE CliEst='A' ORDER BY CliRaz ASC";
             $clientes = db_fetch_all($sql_cli);
@@ -84,7 +84,7 @@ if (!isset($_SESSION['logged'])) {
         <label for="cbmoneda"><b>Importe de Recibo:</b></label>
         <div class="importe">
             <select name="cbmoneda" id="cbmoneda" required>
-                <option value="">Elegir</option>
+                <option value="0">Elegir</option>
                 <?php
                 $sql_mon = "SELECT CodMon, SimMon FROM $bd.dbo.MONEDA WHERE CodMon in ('1','2') and Estado='A'";
                 $monedas = db_fetch_all($sql_mon);
@@ -147,7 +147,7 @@ if (!isset($_SESSION['logged'])) {
     document.addEventListener("DOMContentLoaded", function() {
         let options = document.querySelectorAll("#cbcliente option");
         options.forEach(option => {
-            if (option.value !== "") {
+            if (option.value !== "0") {
                 clientes.push({
                     codigo: option.value,
                     nombre: option.textContent
@@ -161,7 +161,7 @@ if (!isset($_SESSION['logged'])) {
         let select = document.getElementById("cbcliente");
 
         // Limpiamos las opciones actuales
-        select.innerHTML = "<option value=''>Elegir</option>";
+        select.innerHTML = "<option value='0'>Elegir</option>";
 
         // Filtramos los clientes según el texto ingresado
         let clientesFiltrados = clientes.filter(cliente => cliente.nombre.toLowerCase().includes(input));
@@ -174,18 +174,40 @@ if (!isset($_SESSION['logged'])) {
             select.appendChild(option);
         });
     }
+
     document.getElementById("cbempresa").addEventListener("change", function() {
-        // Limpiar todos los campos menos la empresa
-        document.getElementById("cbnegocio").value = "";
-        document.getElementById("cbcliente").value = "";
+        document.getElementById("cbnegocio").value = "0";
+        document.getElementById("cbcliente").value = "0";
         document.getElementById("buscarCliente").value = "";
-        document.getElementById("cbmoneda").value = "";
+        document.getElementById("cbmoneda").value = "0";
         document.getElementById("importe").value = "";
         document.getElementById("txt_obs").value = "";
-        filtrarClientes()
-        // Opcional: Si hay spans o valores generados, límpialos
         document.getElementById("recibo_pago").innerText = "";
 
+        const campos = ["cbnegocio", "cbcliente", "cbmoneda", "importe"];
+        campos.forEach(id => {
+            const campo = document.getElementById(id);
+            campo.dispatchEvent(new Event("input"));
+            campo.dispatchEvent(new Event("change"));
+        });
+
+        filtrarClientes();
+    });
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const form = document.getElementById("formrecibo");
+
+        form.querySelectorAll("input, select, textarea").forEach((el) => {
+            el.addEventListener("change", () => {
+                if (el.checkValidity() && el.value.trim() !== "" && el.value !== "0") {
+                    el.style.borderLeft = "5px solid green";
+                } else if (el.required) {
+                    el.style.borderLeft = "5px solid red";
+                } else {
+                    el.style.borderLeft = "";
+                }
+            });
+        });
     });
 </script>
 <script src="../js/recibo_pago.js"></script>
