@@ -1,0 +1,1 @@
+http://localhost:8080/system_desarrollo/sistema/templates/impresion_ticket.php?codemp=1&cod_recibo=22&label=CLIENTE

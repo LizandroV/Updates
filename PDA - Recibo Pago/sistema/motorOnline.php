@@ -12,7 +12,7 @@ if (isset($_REQUEST['recibo_pago']) && $_REQUEST['recibo_pago']) {
         $dsl_serie_recibo = db_fetch_all($sql_serie_recibo);
         // echo $dsl_serie_recibo;
         if (!$dsl_serie_recibo || count($dsl_serie_recibo) === 0) {
-            $serie_rec = "";
+            $serie_rec = "R";
         }
         foreach ($dsl_serie_recibo as $rec) {
             $serie_rec = trim($rec['Serie']);

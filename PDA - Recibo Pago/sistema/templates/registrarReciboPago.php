@@ -44,7 +44,10 @@ if ($cod_cli == "") {
 $sql_serie_recibo = "select Serie from $bd.dbo.NrosdeSerie where codEmpresa='$cod_emp' and codTipoDoc=7 and Estado=0";
 // echo $sql_serie_recibo;
 $dsl_serie_recibo = db_fetch_all($sql_serie_recibo);
-foreach ($dsl_serie_recibo as $val => $rec) {
+if (!$dsl_serie_recibo || count($dsl_serie_recibo) === 0) {
+    $serie_rec = "R";
+}
+foreach ($dsl_serie_recibo as $rec) {
     $serie_rec = trim($rec['Serie']);
 }
 
