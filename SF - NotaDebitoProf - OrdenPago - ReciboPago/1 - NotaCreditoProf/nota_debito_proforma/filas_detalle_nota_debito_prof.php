@@ -15,7 +15,7 @@ if ($neg == '2') {
     <tr onMouseOver="color1(this,'#dee7ec');" onMouseOut="color2(this,'#ffffff');">
         <td width="7%" height="28" align="center" valign="middle"><img src="images/b_deltbl.png" onclick="eliminar_filas_nd_prof('<?= $i; ?>');" alt="Eliminar Registro" width="16" height="16" border="0" align="absmiddle" style="cursor:pointer;" /></td>
         <td width="7%" align="center" valign="middle">
-            <input name="txt_cantidad" onKeyUp="numeros(this.id)" type="text" class="smalltext" size="4" id="txt_cantidad<?= $i ?>" />
+            <input name="txt_cantidad" onblur="calcular_nota_debito_prof('<?= $i ?>');" onKeyUp="numeros(this.id)" type="text" class="smalltext" size="4" id="txt_cantidad<?= $i ?>" />
         </td>
         <td width="9%" align="center" valign="middle">
             <select name="txt_und1" id="txt_und1<?= $i ?>" class="smalltext" style="width:60px;">

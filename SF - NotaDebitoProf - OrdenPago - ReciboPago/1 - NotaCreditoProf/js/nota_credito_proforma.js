@@ -546,8 +546,8 @@ function registrar_nota_credito_prof() {
 	}
 
 	var dateInicio = document.getElementById("txtInicio").value;
-	if ($F("txtInicio") == "") {
-		alert("Debe Ingresar la Fecha de Emision de la Nota de Credito Proforma.");
+	if ($F("txtInicio") == "" || !dateInicio) {
+		alert("Debe Ingresar la Fecha de Emision de la Nota de Debito Proforma.");
 		document.getElementById("txtInicio").focus();
 		return;
 	}
@@ -563,6 +563,17 @@ function registrar_nota_credito_prof() {
 	if ($F("cod_motivo") == "0") {
 		alert("Debe Elegir el Motivo de la Nota de Credito Proforma.");
 		document.getElementById("cod_motivo").focus();
+		return;
+	}
+
+	//capturando los detalles
+	var contador = 0;
+	var hiddens = document.getElementsByName("puntero");
+	for (var j = 0; j < hiddens.length; j++) contador = contador + 1;
+
+	//ver si hay alguna fila en detalle
+	if (contador == 0) {
+		alert("No ha ingresado ningun item.");
 		return;
 	}
 
@@ -591,17 +602,6 @@ function registrar_nota_credito_prof() {
 
 	var comentario = document.form1.txt_comen_fac.value;
 	var usuario = document.form1.usuario.value;
-
-	//capturando los detalles
-	var contador = 0;
-	var hiddens = document.getElementsByName("puntero");
-	for (var j = 0; j < hiddens.length; j++) contador = contador + 1;
-
-	//ver si hay alguna fila en detalle
-	if (contador == 0) {
-		alert("No ha ingresado ning�n item.");
-		return;
-	}
 
 	var suma = 0.0;
 	var punteros_filas = document.getElementsByName("puntero");
@@ -888,6 +888,7 @@ function nuevo_documento_nc_prof() {
 
 	//inhabilitanbdo el imprimir
 	// document.getElementById("model_nc").disabled = true;
+	document.getElementById("bus_ingreso").disabled = false;
 	document.getElementById("guardar").disabled = false;
 	document.getElementById("item").disabled = false;
 
@@ -977,7 +978,8 @@ function ver_orden_nc_prof() {
 		document.getElementById("cmbcodobra").focus();
 		return;
 	}
-
+	document.getElementById("order_factura").disabled = true;
+	document.getElementById("order_factura").value = "";
 	/////////////Abril,2018
 	document.getElementById("numero_nota").readOnly = false;
 	document.getElementById("numero_nota").style.textAlign = "right";
@@ -1542,4 +1544,40 @@ function eliminar_nota_nc_prof() {
 	document.getElementById("guardar").innerHTML =
 		"<img width='15' height='15' src='images/btn_guardar.png' align='absmiddle'>&nbsp;Guardar Documento";
 	document.getElementById("eliorden").disabled = true;
+}
+
+function imprimir_ncp() {
+	if ($F("codNegocio") == "0") {
+		alert("Debe generar una Nota de Credito Proforma.");
+		return;
+	}
+
+	var obraCodigo = document.form1.codNegocio.value;
+	var OrdenComp = document.getElementById("nota_credito_prof2").innerHTML;
+
+	if (!$("verorden").disabled == false) {
+		//   O.C. N� 000001-CKM
+		var posicion1 = OrdenComp.indexOf("0"); // posicion = 8
+		var posicion2 = OrdenComp.indexOf("-"); // posicion = 14
+		var porcion = OrdenComp.substring(posicion1, posicion2 + 1); // porcion = "000001"
+		var CodOrdComp = parseInt(porcion, 10);
+	} else {
+		CodOrdComp = document.getElementById("cmbordenes").value;
+		obraCodigo = document.getElementById("cmbcodobra").value;
+	}
+
+	document.getElementById("CodOrdComp").value = CodOrdComp;
+	document.getElementById("CodObra").value = obraCodigo;
+
+	///alert(obraCodigo+"   "+CodOrdComp+"   "+cmbServicio);
+
+	window.open(
+		"plantilla/xpdf_notadecredito_prof.php?cneg=" +
+			base64_encode(obraCodigo) +
+			"&codncprof=" +
+			base64_encode(CodOrdComp.toString()),
+		"REPORTE",
+		"resizable=yes,scrollbars=yes",
+		false
+	);
 }

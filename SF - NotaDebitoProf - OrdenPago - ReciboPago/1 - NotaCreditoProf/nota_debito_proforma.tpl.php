@@ -137,7 +137,7 @@ include('funciones/funciones.php');
                   <tr>
                     <td align="center" height="15"><button name="boton" id="bus_ingreso" onClick="buscar_datos_orden_proforma_nd()" class="button2" type="button"><img width="15" height="16" src="images/b_view.png" align="absmiddle">&nbsp;Buscar</button>&nbsp;&nbsp;
                       <!-- <button name="boton" id="model_nd" disabled onClick="print_nd_web()" class="button2" type="button"><img width="15" height="16" src="images/text.gif" align="absmiddle">&nbsp;Fisico</button>&nbsp;&nbsp; -->
-                      <button name="btn_ndE" id="btn_ndE" onClick="imprimir_ndE()" class="button2" type="button"><img width="15" height="16" src="images/text.gif" align="absmiddle">&nbsp;Imprimir</button>&nbsp;&nbsp;
+                      <button name="btn_ndE" id="btn_ndE" onClick="imprimir_ndp()" class="button2" type="button"><img width="15" height="16" src="images/text.gif" align="absmiddle">&nbsp;Imprimir</button>&nbsp;&nbsp;
                       <button name="boton" id="nuevo" onClick="nuevo_documento_nd_prof()" class="button2" type="button"><img width="15" height="15" src="images/new_docu.png" align="absmiddle">&nbsp;Nuevo Documento</button>&nbsp;&nbsp;
                       <button name="boton" id="item" onClick="insertar_fila_detalle_nota_debito_prof()" class="button2" type="button"><img width="15" height="15" src="images/new_filas.png" align="absmiddle">&nbsp;Nuevo Item</button>&nbsp;&nbsp;
                       <button name="boton" id="guardar" onClick="registrar_nota_debito_prof()" class="button2" type="button"><img width="15" height="15" src="images/btn_guardar.png" align="absmiddle">&nbsp;Guardar Documento</button>&nbsp;&nbsp;
